@@ -16,19 +16,11 @@ db.sequelize = sequelize;
 
 db.login = require("../src/models/login/login.model.js")(sequelize, Sequelize);
 db.otp = require("../src/models/login/otp.model.js")(sequelize, Sequelize);
-// db.district = require("../src/models/district/district.model.js")(sequelize, Sequelize);
-// db.schoolform = require("../src/models/school-form/school-form.model.js")(sequelize, Sequelize);
-
-
-// Define associations
-
-// db.login.belongsTo(db.district, { as: 'districtRef', foreignKey: 'districtId' });
-// db.schoolform.belongsTo(db.login, { as: 'byLogin', foreignKey: 'loginId' });
-// db.schoolform.belongsTo(db.district, { as: 'byDistrict', foreignKey: 'districtId' });
+db.qrform = require("../src/models/qrform/qrform.model.js")(sequelize, Sequelize);
 
 schema.forEach(x => {
     console.log(x.model);
-     if(x.model == 'login' || x.model == 'otp'
+     if(x.model == 'login' || x.model == 'otp' || x.model == 'qrform'
      ){ 
         console.log('if ', x.table);
     }
