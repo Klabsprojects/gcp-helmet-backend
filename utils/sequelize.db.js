@@ -15,6 +15,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.login = require("../src/models/login/login.model.js")(sequelize, Sequelize);
+db.otp = require("../src/models/login/otp.model.js")(sequelize, Sequelize);
 // db.district = require("../src/models/district/district.model.js")(sequelize, Sequelize);
 // db.schoolform = require("../src/models/school-form/school-form.model.js")(sequelize, Sequelize);
 
@@ -27,7 +28,7 @@ db.login = require("../src/models/login/login.model.js")(sequelize, Sequelize);
 
 schema.forEach(x => {
     console.log(x.model);
-     if(x.model == 'login'
+     if(x.model == 'login' || x.model == 'otp'
      ){ 
         console.log('if ', x.table);
     }
