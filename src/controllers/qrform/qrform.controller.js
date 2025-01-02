@@ -55,7 +55,7 @@ exports.qrformRegister = async (req, res) => {
         successRes(res, results, SUCCESS.CREATED);
     } catch (error) {
         console.log('catch', error);
-        const message = error.message ? error.message : ERRORS.LISTED;
+        const message = error.message ? error.message : ERRORS.CREATED;
         errorRes(res, error, message, file);
     }
 }

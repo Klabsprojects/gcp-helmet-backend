@@ -17,10 +17,13 @@ db.sequelize = sequelize;
 db.login = require("../src/models/login/login.model.js")(sequelize, Sequelize);
 db.otp = require("../src/models/login/otp.model.js")(sequelize, Sequelize);
 db.qrform = require("../src/models/qrform/qrform.model.js")(sequelize, Sequelize);
+db.qrscan = require("../src/models/qrform/qrscan.model.js")(sequelize, Sequelize);
+
+db.qrscan.belongsTo(db.qrform, { as: 'qrformRef', foreignKey: 'qrFormId' });
 
 schema.forEach(x => {
     console.log(x.model);
-     if(x.model == 'login' || x.model == 'otp' || x.model == 'qrform'
+     if(x.model == 'login' || x.model == 'otp' || x.model == 'qrform' || x.model == 'qrscan'
      ){ 
         console.log('if ', x.table);
     }
