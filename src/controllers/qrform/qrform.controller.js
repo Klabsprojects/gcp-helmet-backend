@@ -60,7 +60,6 @@ exports.qrformRegister = async (req, res) => {
     }
 }
 
-
 exports.getQrform = async (req, res) => {
     console.log('helo from qrform controller');
     try {
@@ -91,3 +90,35 @@ exports.getQrform = async (req, res) => {
         errorRes(res, error, message, file);
     }
 }  
+
+exports.checkLicenseExistence = async (req, res) => {
+    console.log('helo from checkLicenseExistence controller');
+    try {
+        console.log('req.query', req.query);
+        let query = {};
+        query.where = req.query;
+        let message;
+         console.log('query ', query);
+        let oneResult;
+        if (req.query.licenseNumber) {
+            console.log('if');
+            oneResult = await commonService.findOne(db.qrform, query);
+            console.log(oneResult);
+            if(oneResult == null){
+                //throw new Error('Pls provide valid License Number');
+                message = "LicenseNumber is valid";
+            }
+            else
+            throw new Error('License Number already exist');
+        }
+        else
+            throw new Error('Pls provide valid License Number');
+        console.log('success');
+        console.log(oneResult);
+        successRes(res, message, SUCCESS.LICENSE_EXISTANCE);
+    } catch (error) {
+        console.log('error', error);
+        const message = error.message ? error.message : ERRORS.LICENSE_EXISTANCE;
+        errorRes(res, error, message, file);
+    }
+}

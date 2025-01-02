@@ -20,5 +20,10 @@ module.exports = (app) => {
     app.get(
       "/getQrform",
       value.getQrform
-    )
+    );
+
+    app.get(
+      "/checkLicenseExistence",
+      value.checkLicenseExistence
+    );
 }

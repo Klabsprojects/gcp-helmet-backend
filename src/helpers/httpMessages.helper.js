@@ -7,7 +7,8 @@ const SUCCESS = {
     DELETED: "Deleted successfully",
     INVALID_TOKEN: "Invalid token",
     LOGIN: "Login successfully",
-    SENT: "Pass Sent Successfully"
+    SENT: "Pass Sent Successfully",
+    LICENSE_EXISTANCE: "Valid License"
 };
 
 const ERRORS = {
@@ -17,7 +18,8 @@ const ERRORS = {
     DELETED: "Deleted failure",
     INVALID_TOKEN: "Invalid token",
     LOGIN: "Login failure",
-    SENT: "Pass Sent Failure"
+    SENT: "Pass Sent Failure",
+    LICENSE_EXISTANCE: "Already Exist"
 };
 
 module.exports = { ERRORS, SUCCESS }
