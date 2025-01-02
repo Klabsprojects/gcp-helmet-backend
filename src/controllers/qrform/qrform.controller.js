@@ -91,6 +91,43 @@ exports.getQrform = async (req, res) => {
     }
 }  
 
+exports.getQrformById = async (req, res) => {
+    console.log('helo from qrform controller');
+    try {
+        console.log('req.query', req.query);
+        let query = {};
+        query.where = req.query;
+         console.log('query ', query);
+        let results;
+        let finalResults;
+        if (req.query.id) {
+            console.log('if');
+            results = await commonService.findOne(db.qrform, query);
+            finalResults = {
+                "id": results.id,
+                "name": results.name,
+                //"licenseNumber": results.licenseNumber,
+                "phoneNumber": results.phoneNumber,
+                "bloodGroup": results.bloodGroup,
+                "emergencyContactName": results.emergencyContactName,
+                "emergencyContactPhone": results.emergencyContactPhone,
+                "address": results.address,
+                "qrImagePath": results.qrImagePath,
+            }
+        }
+        else 
+            throw new Error('Pls provide valid parameters');
+        console.log('success');
+        console.log(finalResults);
+        successRes(res, finalResults, SUCCESS.LISTED);
+    } catch (error) {
+        console.log('error', error);
+        const message = error.message ? error.message : ERRORS.LISTED;
+        errorRes(res, error, message, file);
+    }
+}  
+
+
 exports.checkLicenseExistence = async (req, res) => {
     console.log('helo from checkLicenseExistence controller');
     try {

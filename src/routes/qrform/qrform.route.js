@@ -19,7 +19,13 @@ module.exports = (app) => {
 
     app.get(
       "/getQrform",
+      [jwt.verifyToken],
       value.getQrform
+    );
+
+    app.get(
+      "/getQrformById",
+      value.getQrformById
     );
 
     app.get(
