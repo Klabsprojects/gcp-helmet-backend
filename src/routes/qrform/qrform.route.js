@@ -17,4 +17,8 @@ module.exports = (app) => {
       value.qrformRegister
     );
 
+    app.get(
+      "/getQrform",
+      value.getQrform
+    )
 }
