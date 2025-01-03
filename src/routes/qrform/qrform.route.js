@@ -23,6 +23,12 @@ module.exports = (app) => {
     );
 
     app.get(
+      "/getQrform",
+      [jwt.verifyToken],
+      value.getQrform
+    );
+
+    app.get(
       "/checkLicenseExistence",
       value.checkLicenseExistence
     );
