@@ -200,7 +200,7 @@ exports.getQrform = async (req, res) => {
       };
       
       exports.getQrformBySearch = async (req, res) => {
-        console.log('helo from qrform controller', req.query);
+        console.log('helo from getQrformBySearch controller', req.query);
         try {
             // Log the entire request to debug
             //console.log('Full Request:', req);
