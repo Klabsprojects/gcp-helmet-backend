@@ -18,12 +18,6 @@ module.exports = (app) => {
     );
 
     app.get(
-      "/getQrform",
-      [jwt.verifyToken],
-      value.getQrform
-    );
-
-    app.get(
       "/getQrformById",
       value.getQrformById
     );
@@ -31,5 +25,11 @@ module.exports = (app) => {
     app.get(
       "/checkLicenseExistence",
       value.checkLicenseExistence
+    );
+    
+    app.get(
+      "/getQrformBySearch",
+      [jwt.verifyToken],
+      value.getQrformBySearch
     );
 }

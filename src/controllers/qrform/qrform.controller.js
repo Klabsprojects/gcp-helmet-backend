@@ -60,37 +60,6 @@ exports.qrformRegister = async (req, res) => {
     }
 }
 
-exports.getQrform = async (req, res) => {
-    console.log('helo from qrform controller');
-    try {
-        console.log('req.query', req.query);
-        let query = {};
-        query.where = req.query;
-         console.log('query ', query);
-        let results = [];
-        if (req.query.id) {
-            console.log('if');
-            let oneResult = await commonService.findOne(db.qrform, query);
-            results.push(oneResult);
-        }
-        else if(req.query.all && req.query.all == 'yes') 
-        {
-            query.where = {}
-            console.log('else ');
-            results = await commonService.findAll(db.qrform, query);
-        }
-        else 
-            throw new Error('Pls provide valid parameters');
-        console.log('success');
-        console.log(results);
-        successRes(res, results, SUCCESS.LISTED);
-    } catch (error) {
-        console.log('error', error);
-        const message = error.message ? error.message : ERRORS.LISTED;
-        errorRes(res, error, message, file);
-    }
-}  
-
 exports.getQrformById = async (req, res) => {
     console.log('helo from qrform controller');
     try {
@@ -158,3 +127,120 @@ exports.checkLicenseExistence = async (req, res) => {
         errorRes(res, error, message, file);
     }
 }
+
+exports.getQrform = async (req, res) => {
+    console.log('helo from qrform controller');
+    try {
+        console.log('req.query', req.query);
+        let query = {};
+        query.where = req.query;
+         console.log('query ', query);
+        let results = [];
+        if (req.query.id) {
+            console.log('if');
+            let oneResult = await commonService.findOne(db.qrform, query);
+            results.push(oneResult);
+        }
+        else if(req.query.all && req.query.all == 'yes') 
+        {
+            query.where = {}
+            console.log('else ');
+            results = await commonService.findAll(db.qrform, query);
+        }
+        else 
+            throw new Error('Pls provide valid parameters');
+        console.log('success');
+        console.log(results);
+        successRes(res, results, SUCCESS.LISTED);
+    } catch (error) {
+        console.log('error', error);
+        const message = error.message ? error.message : ERRORS.LISTED;
+        errorRes(res, error, message, file);
+    }
+}
+
+    exports.getQrformBySearchOld = async (req, res) => {
+        console.log('helo from qrform controller', req.query);
+        try {
+          console.log('req.query', req.query);
+          let query = {};
+          query.where = {};
+      
+          // Conditionally add filters based on query parameters
+          if (req.query.name) {
+            query.where.name = { [Sequelize.Op.like]: `%${req.query.name}%` };  // Partial match for name
+          }
+      
+          if (req.query.licenseNumber) {
+            query.where.licenseNumber = req.query.licenseNumber;
+          }
+      
+          if (req.query.phoneNumber) {
+            query.where.phoneNumber = req.query.phoneNumber;
+          }
+      
+          console.log('query ', query);
+          let results = [];
+      
+          // Fetch the results based on provided query parameters
+          if (Object.keys(query.where).length === 0) {
+            throw new Error('Please provide at least one valid search parameter');
+          }
+      
+          results = await commonService.findAll(db.qrform, query);
+      
+          console.log('success');
+          console.log(results);
+          successRes(res, results, SUCCESS.LISTED);
+        } catch (error) {
+          console.log('error', error);
+          const message = error.message ? error.message : ERRORS.LISTED;
+          errorRes(res, error, message, file);
+        }
+      };
+      
+      exports.getQrformBySearch = async (req, res) => {
+        console.log('helo from qrform controller', req.query);
+        try {
+            // Log the entire request to debug
+            //console.log('Full Request:', req);
+    
+            // Log just the query parameters
+            console.log('req.query', req.query);
+    
+            let query = {};
+            query.where = {};
+    
+            // Conditionally add filters based on query parameters
+            if (req.query.name) {
+                query.where.name = { [Sequelize.Op.like]: `%${req.query.name}%` };  // Partial match for name
+            }
+    
+            if (req.query.licenseNumber) {
+                query.where.licenseNumber = req.query.licenseNumber;
+            }
+    
+            if (req.query.phoneNumber) {
+                query.where.phoneNumber = req.query.phoneNumber;
+            }
+    
+            console.log('query ', query);
+            let results = [];
+    
+            // Fetch the results based on provided query parameters
+            if (Object.keys(query.where).length === 0) {
+                throw new Error('Please provide at least one valid search parameter');
+            }
+    
+            results = await commonService.findAll(db.qrform, query);
+    
+            console.log('success');
+            console.log(results);
+            successRes(res, results, SUCCESS.LISTED);
+        } catch (error) {
+            console.log('error', error);
+            const message = error.message ? error.message : ERRORS.LISTED;
+            errorRes(res, error, message, file);
+        }
+    };
+    
