@@ -58,3 +58,34 @@ exports.qrScanRegister = async (req, res) => {
         errorRes(res, error, message, file);
     }
 }
+
+exports.getQrScan = async (req, res) => {
+    console.log('helo from qrscan controller');
+    try {
+        console.log('req.query', req.query);
+        let query = {};
+        query.where = req.query;
+         console.log('query ', query);
+        let results = [];
+        if (req.query.id) {
+            console.log('if');
+            let oneResult = await commonService.findOne(db.qrscan, query);
+            results.push(oneResult);
+        }
+        else if(req.query.all && req.query.all == 'yes') 
+        {
+            query.where = {}
+            console.log('else ');
+            results = await commonService.findAll(db.qrscan, query);
+        }
+        else 
+            throw new Error('Pls provide valid parameters');
+        console.log('success');
+        console.log(results);
+        successRes(res, results, SUCCESS.LISTED);
+    } catch (error) {
+        console.log('error', error);
+        const message = error.message ? error.message : ERRORS.LISTED;
+        errorRes(res, error, message, file);
+    }
+}

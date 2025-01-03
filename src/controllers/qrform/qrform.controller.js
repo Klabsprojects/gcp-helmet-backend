@@ -127,7 +127,6 @@ exports.getQrformById = async (req, res) => {
     }
 }  
 
-
 exports.checkLicenseExistence = async (req, res) => {
     console.log('helo from checkLicenseExistence controller');
     try {

@@ -16,4 +16,10 @@ module.exports = (app) => {
       value.qrScanRegister
     );
 
+    app.get(
+      "/getQrScan",
+      [jwt.verifyToken],
+      value.getQrScan
+    );
+
 }
