@@ -65,6 +65,11 @@ exports.getQrScan = async (req, res) => {
         console.log('req.query', req.query);
         let query = {};
         query.where = req.query;
+        query.include = [{
+            model: db.qrform,  // The qrform model
+            as: 'qrformRef', // Alias used in the association
+            required: true,   // Change to true if you want only results with matching qrform
+          }];
          console.log('query ', query);
         let results = [];
         if (req.query.id) {
