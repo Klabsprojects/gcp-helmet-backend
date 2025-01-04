@@ -68,23 +68,28 @@ exports.getQrformById = async (req, res) => {
         query.where = req.query;
          console.log('query ', query);
         let results;
-        let finalResults;
-        if (req.query.id) {
+        let finalResults = {};
+        if (req.query.id || req.query.licenseNumber) {
             console.log('if');
             results = await commonService.findOne(db.qrform, query);
-            finalResults = {
-                "id": results.id,
-                "name": results.name,
-                //"licenseNumber": results.licenseNumber,
-                "phoneNumber": results.phoneNumber,
-                "bloodGroup": results.bloodGroup,
-                "emergencyContactName": results.emergencyContactName,
-                "emergencyContactPhone": results.emergencyContactPhone,
-                "address": results.address,
-                "qrImagePath": results.qrImagePath,
+            console.log(results);
+            if(results){
+                finalResults = {
+                    "id": results.id,
+                    "name": results.name,
+                    "licenseNumber": results.licenseNumber,
+                    "phoneNumber": results.phoneNumber,
+                    "bloodGroup": results.bloodGroup,
+                    "emergencyContactName": results.emergencyContactName,
+                    "emergencyContactPhone": results.emergencyContactPhone,
+                    "address": results.address,
+                    "qrImagePath": results.qrImagePath,
+                }
             }
+            else
+                throw new Error('No record found');
         }
-        else 
+        else
             throw new Error('Pls provide valid parameters');
         console.log('success');
         console.log(finalResults);
