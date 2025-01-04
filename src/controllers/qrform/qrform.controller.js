@@ -101,6 +101,47 @@ exports.getQrformById = async (req, res) => {
     }
 }  
 
+exports.getQrformIfExisted = async (req, res) => {
+    console.log('helo from getQrformIfExisted controller');
+    try {
+        console.log('req.query', req.query);
+        let query = {};
+        query.where = req.query;
+         console.log('query ', query);
+        let results;
+        let finalResults = {};
+        if (req.query.phoneNumber && req.query.licenseNumber) {
+            console.log('if');
+            results = await commonService.findOne(db.qrform, query);
+            console.log(results);
+            if(results){
+                finalResults = {
+                    "id": results.id,
+                    "name": results.name,
+                    "licenseNumber": results.licenseNumber,
+                    "phoneNumber": results.phoneNumber,
+                    "bloodGroup": results.bloodGroup,
+                    "emergencyContactName": results.emergencyContactName,
+                    "emergencyContactPhone": results.emergencyContactPhone,
+                    "address": results.address,
+                    "qrImagePath": results.qrImagePath,
+                }
+            }
+            else
+                throw new Error('No record found');
+        }
+        else
+            throw new Error('Pls provide valid parameters');
+        console.log('success');
+        console.log(finalResults);
+        successRes(res, finalResults, SUCCESS.LISTED);
+    } catch (error) {
+        console.log('error', error);
+        const message = error.message ? error.message : ERRORS.LISTED;
+        errorRes(res, error, message, file);
+    }
+} 
+
 exports.checkLicenseExistence = async (req, res) => {
     console.log('helo from checkLicenseExistence controller');
     try {
