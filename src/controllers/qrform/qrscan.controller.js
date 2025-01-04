@@ -12,7 +12,7 @@ let Jkey = process.env.JWT_SECRET_KEY;
 exports.qrScanRegister = async (req, res) => {
     try {
         console.log('Try qrform register' , req.body);
-        const { name, phoneNumber, reason, qrFormId } = req.body;  // Extract licenseNumber from request body
+        const { name, phoneNumber, reason, licenseNumber } = req.body;  // Extract licenseNumber from request body
         let finalResults;
         if (!name) {
         throw new Error('Name is required');
@@ -23,16 +23,17 @@ exports.qrScanRegister = async (req, res) => {
         if (!reason) {
            throw new Error('Reason is required');
         }
-        if (!qrFormId) {
-            throw new Error('QrFormId is required');
+        if (!licenseNumber) {
+            throw new Error('licenseNumber is required');
         }
         console.log(req.body);
         let query = req.body;
         const existingEntry = await db.qrform.findOne({
-            where: { id: query.qrFormId },
+            where: { licenseNumber: query.licenseNumber },
         });
         console.log('existingEntry', existingEntry);
         if (existingEntry) {
+            query.qrFormId = existingEntry.id;
             finalResults = {
                 "id": existingEntry.id,
                 "name": existingEntry.name,
@@ -46,7 +47,8 @@ exports.qrScanRegister = async (req, res) => {
             }
         }
         else
-            throw new Error('QrFormId not exist');
+            throw new Error('licenseNumber not exist');
+        
         const results = await commonService.insertOne(db.qrscan, query);
         console.log(results);
         
