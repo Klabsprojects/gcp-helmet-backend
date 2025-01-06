@@ -43,4 +43,10 @@ module.exports = (app) => {
       [jwt.verifyToken],
       value.getQrformBySearch
     );
+
+    app.get(
+      "/getCount",
+      value.getCount
+    );
+
 }

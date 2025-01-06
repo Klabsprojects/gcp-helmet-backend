@@ -140,7 +140,7 @@ exports.getQrformIfExisted = async (req, res) => {
         const message = error.message ? error.message : ERRORS.LISTED;
         errorRes(res, error, message, file);
     }
-} 
+}
 
 exports.checkLicenseExistence = async (req, res) => {
     console.log('helo from checkLicenseExistence controller');
@@ -243,6 +243,49 @@ exports.getQrform = async (req, res) => {
             console.log('success');
             console.log(results);
             successRes(res, results, SUCCESS.LISTED);
+        } catch (error) {
+            console.log('error', error);
+            const message = error.message ? error.message : ERRORS.LISTED;
+            errorRes(res, error, message, file);
+        }
+    };
+    
+    exports.getCount = async (req, res) => {
+        console.log('helo from qrform controller');
+        try {
+            console.log('req.query', req.query);
+            let query = {};
+            query.where = req.query; // Query criteria based on the request query parameters
+            console.log('query ', query);
+    
+            let results = [];
+            let resultsscan = [];
+            let totalCount = 0;  // Variable to store the count
+            let totalCountscan = 0;
+    
+            // If no specific conditions are provided, set an empty object for where
+            if (Object.keys(req.query).length === 0) {
+                console.log('else');
+                query.where = {}; // Empty condition, meaning fetch all records
+            }
+    
+            // Find all records based on the query condition
+            results = await commonService.findAll(db.qrform, query);
+    
+            // Count the number of documents based on the result length
+            totalCount = results.length;
+    
+            console.log('success');
+            console.log('Results:', results);
+            console.log('Total count:', totalCount);
+
+            resultsscan = await commonService.findAll(db.qrscan, query);
+    
+            // Count the number of documents based on the result length
+            totalCountscan = resultsscan.length;
+    
+            // Return both results and count
+            successRes(res, { qrFormCount: totalCount, qrScanCount: totalCountscan }, SUCCESS.LISTED);
         } catch (error) {
             console.log('error', error);
             const message = error.message ? error.message : ERRORS.LISTED;
